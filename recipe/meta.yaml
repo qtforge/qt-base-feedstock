@@ -28,7 +28,7 @@ source:
     folder: opengl32sw                                                                                            # [win64]
 
 build:
-  number: 4
+  number: 5
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-base', max_pin='x.x') }}
@@ -121,7 +121,7 @@ requirements:
     - dbus                               # [linux]
     - fontconfig                         # [linux]
     - freetype                           # [linux]
-    - glib
+    - glib                               # [linux]
     - libxkbcommon                       # [linux]
     - icu
     # jpeg-turbo currently has some conflicting issues in conda-forge
@@ -142,7 +142,7 @@ requirements:
     - libclang
     - libcups                            # [linux]
     - zstd
-    - krb5
+    - krb5                               # [linux]
   run:
     - libxcb                             # [linux]
     # Adding the following xcb-util run requirements resolves issue
