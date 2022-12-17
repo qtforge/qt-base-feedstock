@@ -28,7 +28,7 @@ source:
     folder: opengl32sw                                                                                            # [win64]
 
 build:
-  number: 5
+  number: 6
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-base', max_pin='x.x') }}
@@ -113,8 +113,8 @@ requirements:
     # Although these should be host-only dependencies, they are needed when
     # cross-compiling arm64 binaries on x86_64 since llvm-config (host/arm64)
     # cannot be executed on x86_64 to locate libclang successfully
-    - llvmdev                           # [arm64]
-    - clangdev                          # [arm64]
+    - llvmdev                              # [arm64]
+    - clangdev {{ cxx_compiler_version }}  # [arm64]
   host:
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]
@@ -139,7 +139,11 @@ requirements:
     # Only libclang is needed, but needs the full package for detection.
     - llvmdev
     - clangdev
-    - libclang
+    # Ensure that build and host have the same clang version on osx
+    # otherwise qt6 may be out of sync compared to the pinned compiler
+    # version
+    - libclang {{ cxx_compiler_version }}  # [osx]
+    - libclang                             # [not osx]
     - libcups                            # [linux]
     - zstd
     - krb5                               # [linux]
