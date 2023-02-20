@@ -1,5 +1,4 @@
 {% set version = "5.15.8" %}
-libglvnd-glx
 
 package:
   name: qt-base
