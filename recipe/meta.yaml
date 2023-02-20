@@ -32,6 +32,8 @@ build:
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-base', max_pin='x.x') }}
+  ignore_run_exports_from:
+    - clangdev
   missing_dso_whitelist:  # [osx]
     - /usr/lib/libbsm.0.dylib  # [osx]
     - /usr/lib/libcups.2.dylib  # [osx]
@@ -46,13 +48,11 @@ requirements:
     - {{ compiler('cxx') }}
     - sysroot_linux-64 2.17              # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl') }}           # [linux]
     - {{ cdt('mesa-libegl-devel') }}     # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
     - {{ cdt('libdrm-devel') }}          # [linux]
     - {{ cdt('libglvnd-glx') }}          # [linux]
     - {{ cdt('libglvnd-egl') }}          # [linux]
-    - {{ cdt('libxxf86vm-devel') }}      # [linux]
 
     # For fontconfig + freetype
     - pkg-config                         # [unix]
@@ -127,6 +127,7 @@ requirements:
     - xorg-libxdamage                    # [linux]
     - xorg-libsm                         # [linux]
     - xorg-libice                        # [linux]
+    - xorg-libxxf86vm                    # [linux]
     - xorg-xf86vidmodeproto              # [linux]
   run:
     - libxcb                             # [linux]
@@ -134,7 +135,6 @@ requirements:
     # that may exhibit as segfault due to missing libraries
     # in some lighter weight linux installations
     # https://github.com/conda-forge/qt-main-feedstock/issues/32
-    - xcb-util                           # [linux]
     - xcb-util-wm                        # [linux]
     - xcb-util-keysyms                   # [linux]
     - xcb-util-image                     # [linux]
@@ -143,7 +143,6 @@ requirements:
     - xorg-libx11                        # [linux]
     # https://github.com/conda-forge/xorg-libxext-feedstock/pull/12
     - xorg-libxext                       # [linux]
-    - xorg-libxdamage                    # [linux]
     # no run_export
     - xorg-libsm                         # [linux]
     - xorg-libice                        # [linux]
@@ -157,36 +156,17 @@ requirements:
 test:
   requires:
     - {{ compiler('cxx') }}
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxext-devel') }}         # [linux]
-    - {{ cdt('libxrender-devel') }}      # [linux]
+    - sysroot_linux-64 2.17              # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-libegl-devel') }}     # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxau-devel') }}          # [linux]
-    - {{ cdt('alsa-lib-devel') }}        # [linux]
-    - {{ cdt('gtk2-devel') }}            # [linux]
-    - {{ cdt('gtkmm24-devel') }}         # [linux]
     - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libxcursor-devel') }}      # [linux]
-    - {{ cdt('libxi-devel') }}           # [linux]
-    - {{ cdt('libxrandr-devel') }}       # [linux]
-    - {{ cdt('pciutils-devel') }}        # [linux]
-    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-    - {{ cdt('libxtst-devel') }}         # [linux]
-    - {{ cdt('libselinux-devel') }}      # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxdamage-devel') }}      # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxfixes-devel') }}       # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
-    - {{ cdt('expat-devel') }}           # [linux]
-    - {{ cdt('pcre') }}                  # [linux]
     - {{ cdt('libglvnd-glx') }}          # [linux]
+    - {{ cdt('libglvnd-egl') }}          # [linux]
     - make                               # [unix]
+    - xcb-util                           # [linux]
+    - xorg-libxdamage                    # [linux]
+    - xorg-libxxf86vm                    # [linux]
   files:
     - test/hello.pro
     - test/main-qtwebengine.cpp
