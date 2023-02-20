@@ -30,8 +30,7 @@ source:
 
 build:
   number: 7
-  skip: true  # [not osx]
-  skip: true  # [not x86_64]
+  skip: true  # [not (osx and x86_64)]
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-base', max_pin='x.x') }}
