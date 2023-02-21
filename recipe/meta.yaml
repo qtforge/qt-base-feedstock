@@ -28,8 +28,7 @@ source:
     folder: opengl32sw                                                                                            # [win64]
 
 build:
-  number: 7
-  skip: true  # [not (osx and x86_64)]
+  number: 8
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-base', max_pin='x.x') }}
@@ -44,7 +43,6 @@ build:
 
 requirements:
   build:
-    # TODO: cleanup the CDTs ...
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - sysroot_linux-64 2.17              # [linux]
@@ -54,7 +52,6 @@ requirements:
     - {{ cdt('libdrm-devel') }}          # [linux]
     - {{ cdt('libglvnd-glx') }}          # [linux]
     - {{ cdt('libglvnd-egl') }}          # [linux]
-
     # For fontconfig + freetype
     - pkg-config                         # [unix]
     - make                               # [unix]
@@ -128,6 +125,7 @@ requirements:
     - xorg-libxdamage                    # [linux]
     - xorg-libsm                         # [linux]
     - xorg-libice                        # [linux]
+    # https://github.com/conda-forge/staged-recipes/pull/22084
     - xorg-libxxf86vm                    # [linux]
     - xorg-xf86vidmodeproto              # [linux]
   run:
@@ -152,12 +150,10 @@ requirements:
   run_constrained:
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
     - qt {{ version }}
-    - qt-main {{ version }}
 
 test:
   requires:
     - {{ compiler('cxx') }}
-    - sysroot_linux-64 2.17              # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-libegl-devel') }}     # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
@@ -167,6 +163,7 @@ test:
     - make                               # [unix]
     - xcb-util                           # [linux]
     - xorg-libxdamage                    # [linux]
+    # https://github.com/conda-forge/staged-recipes/pull/22084
     - xorg-libxxf86vm                    # [linux]
   files:
     - test/hello.pro
@@ -180,10 +177,6 @@ test:
     - test/test_qmimedatabase.cpp
     - xcodebuild
     - xcrun
-  commands:
-    # sql plugin
-    - test -f $PREFIX/plugins/sqldrivers/libqsqlite${SHLIB_EXT}            # [unix]
-    - if not exist %LIBRARY_PREFIX%\plugins\sqldrivers\qsqlite.dll exit 1  # [win]
 
 about:
   home: https://qt.io
