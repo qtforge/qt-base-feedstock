@@ -19,3 +19,8 @@ replacements:
       regex_re: '(?:-L|-I)?\"?([^;\s]+\/sysroot)'
       replacement_re: '$(CONDA_BUILD_SYSROOT)'
       regex_rg: '([^;\s"]+/sysroot)'
+    - tag: 'CMake build metadata'
+      glob_patterns:
+        - '*.cmake'
+      regex_re: '([^;\s"]+/sysroot)'
+      replacement_re: '$ENV{CONDA_BUILD_SYSROOT}'
