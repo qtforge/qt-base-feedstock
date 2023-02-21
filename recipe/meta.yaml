@@ -125,7 +125,6 @@ requirements:
     - xorg-libxdamage                    # [linux]
     - xorg-libsm                         # [linux]
     - xorg-libice                        # [linux]
-    # https://github.com/conda-forge/staged-recipes/pull/22084
     - xorg-libxxf86vm                    # [linux]
     - xorg-xf86vidmodeproto              # [linux]
   run:
@@ -163,7 +162,6 @@ test:
     - make                               # [unix]
     - xcb-util                           # [linux]
     - xorg-libxdamage                    # [linux]
-    # https://github.com/conda-forge/staged-recipes/pull/22084
     - xorg-libxxf86vm                    # [linux]
   files:
     - test/hello.pro
